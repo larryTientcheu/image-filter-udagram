@@ -48,15 +48,19 @@ import { filterImageFromURL, deleteLocalFiles } from './util/util';
       return res.status(415).send("The media format of the requested data is not supported by the server. Use png or jpeg");
     }
     else {
-      await filterImageFromURL(image_url).then(
-        (image) => {
-          images.push(image);
-          res.status(200).sendFile(image);
-          res.on('finish', function () {
-            deleteLocalFiles(images);
-          });
-        }
-      );
+      try {
+        await filterImageFromURL(image_url).then(
+          (image) => {
+            images.push(image);
+            res.status(200).sendFile(image);
+            res.on('finish', function () {
+              deleteLocalFiles(images);
+            });
+          }
+        );
+      } catch (error) {
+        res.status(404).send('URL submitted is invalid')
+      }
     }
   });
 
