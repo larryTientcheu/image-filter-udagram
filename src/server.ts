@@ -59,6 +59,7 @@ import { filterImageFromURL, deleteLocalFiles } from './util/util';
           }
         );
       } catch (error) {
+        console.log(error)
         res.status(404).send('URL submitted is invalid')
       }
     }
