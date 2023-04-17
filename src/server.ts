@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import { filterImageFromURL, deleteLocalFiles } from './util/util';
+import { Request, Response } from 'express';
 
 (async () => {
 
@@ -37,7 +38,7 @@ import { filterImageFromURL, deleteLocalFiles } from './util/util';
     res.send("try GET /filteredimage?image_url={{}}")
   });
 
-  app.get("/filteredimage/", async (req, res) => {
+  app.get("/filteredimage/", async (req:Request, res:Response) => {
     let { image_url } = req.query;
     let images: string[] = [];
 
@@ -60,7 +61,7 @@ import { filterImageFromURL, deleteLocalFiles } from './util/util';
         );
       } catch (error) {
         console.log(error)
-        res.status(404).send('URL submitted is invalid')
+        res.status(500).send('Internal server error')
       }
     }
   });
